@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db:
+    image: 'postgres:10.1-alpine'
+    environment:
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+    volumes:
+      - 'db:/var/lib/postgresql/data'
+    expose:
+      - "${DB_PORT}"
+    ports:
+      - "${DB_PORT}:5432"
+  web:
+    build: .
+    command: foreman start -f Procfile.dev
+    environment:
+      - DB_PASSWORD="${DB_PASSWORD}"
+    volumes:
+      - .:/recipes
+    ports:
+      - ${API_PORT}:5000
+    depends_on:
+      - db
+volumes:
+  db:
