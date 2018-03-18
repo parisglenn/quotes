@@ -1,5 +1,13 @@
 version: '3'
 services:
+  webpacker:
+    build: .
+    command: bash -c "rm -rf /recipes/public/packs; /recipes/bin/webpack-dev-server --hot --inline"
+    volumes:
+      - .:/recipes
+      - packs:/recipes/public/packs
+    ports:
+      - "3035:3035"
   db:
     image: 'postgres:10.1-alpine'
     environment:
@@ -13,14 +21,17 @@ services:
       - "${DB_PORT}:5432"
   web:
     build: .
-    command: foreman start -f Procfile.dev
+    command: bash -c "rm /recipes/tmp/pids/server.pid; bundle exec rails server -p 5000 -b '0.0.0.0'"
     environment:
       - DB_PASSWORD="${DB_PASSWORD}"
     volumes:
       - .:/recipes
+      - packs:/recipes/public/packs
     ports:
       - ${API_PORT}:5000
     depends_on:
+      - webpacker
       - db
 volumes:
   db:
+  packs: {}

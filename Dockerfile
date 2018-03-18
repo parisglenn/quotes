@@ -1,5 +1,5 @@
 FROM ruby:2.5
-
+RUN echo "build something new"
 RUN apt-get update -qq && apt-get install -y build-essential apt-transport-https apt-utils
 
 # for nokogiri
@@ -20,6 +20,9 @@ COPY Gemfile /recipes/Gemfile
 COPY Gemfile.lock /recipes/Gemfile.lock
 RUN bundle install
 COPY . /recipes
+# RUN npm install
+RUN yarn install
 # COPY ./recipes/* /recipes
-# RUN bundle exec rake webpacker:install
+# RUN bundle exec rake webpacker:install:react
 # RUN ./bin/rails webpacker:install:react
+VOLUME ["recipes/public"]

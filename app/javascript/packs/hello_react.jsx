@@ -4,23 +4,54 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
+import { AppContainer } from 'react-hot-loader'
 
-const Hello = props => (
-  <div>Hello {props.name}!</div>
-)
+import Root from './containers/Root'
 
-Hello.defaultProps = {
-  name: 'David'
-}
-
-Hello.propTypes = {
-  name: PropTypes.string
-}
-
-document.addEventListener('DOMContentLoaded', () => {
+const render = Component => {
   ReactDOM.render(
-    <Hello name="React" />,
-    document.body.appendChild(document.createElement('div')),
+    <AppContainer>
+      <Component />
+    </AppContainer>,
+    document.getElementById('root')
   )
-})
+}
+
+render(Root)
+
+if (module.hot) {
+  console.log("module is hot")
+  module.hot.accept('./containers/Root', () => { render(Root) })
+}
+
+// import React from 'react'
+// import ReactDOM from 'react-dom'
+// import Hello from './components/home.jsx'
+// // import PropTypes from 'prop-types'
+// // import { hot } from 'react-hot-loader'
+// //
+// // const Hello = props => (
+// //   <div>Hello {props.name}!</div>
+// // )
+// //
+// // Hello.defaultProps = {
+// //   name: 'David'
+// // }
+// //
+// // Hello.propTypes = {
+// //   name: PropTypes.string
+// // }
+// //
+// // document.addEventListener('DOMContentLoaded', () => {
+// //   ReactDOM.render(
+// //     <Hello name="Recipes" />,
+// //     document.body.appendChild(document.createElement('div')),
+// //   )
+// // })
+//
+// module.hot.accept('./hello_react.js', () => {
+//   // const NextRootContainer = require('./hello_react.jsx').default;
+//   const NextRootContainer = require('./components/home.jsx').default;
+//   render(<NextRootContainer />, document.getElementById('react-root'));
+// })
+// // export default hot(module)(Hello)
