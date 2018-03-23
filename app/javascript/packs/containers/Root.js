@@ -1,7 +1,12 @@
 import React from 'react'
+import Home from '../components/home.jsx'
 
 const Root = () => (
-  <div>Hello React Hot Loader!?</div>
+  <div>
+    <Home
+      name="Rafiki Twist"
+    />
+  </div>
 )
 
 export default Root

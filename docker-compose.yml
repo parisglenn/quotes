@@ -34,4 +34,4 @@ services:
       - db
 volumes:
   db:
-  packs: {}
+  packs:
