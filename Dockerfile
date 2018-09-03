@@ -18,11 +18,14 @@ RUN mkdir /recipes
 WORKDIR /recipes
 COPY Gemfile /recipes/Gemfile
 COPY Gemfile.lock /recipes/Gemfile.lock
+COPY package.json /recipes/package.json
 RUN bundle install
-COPY . /recipes
-# RUN npm install
-RUN yarn install
+# RUN yarn install
 # COPY ./recipes/* /recipes
-# RUN bundle exec rake webpacker:install:react
+COPY . /recipes
+RUN bundle exec rake webpacker:install:react
 # RUN ./bin/rails webpacker:install:react
-VOLUME ["recipes/public"]
+RUN npm install
+RUN yarn install
+COPY . /recipes
+# VOLUME ["recipes/public"]
